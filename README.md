@@ -1,0 +1,1 @@
+Tic-Tac-Toe project from TOP. I will be mostly working on new JS knowledge I have learnt, such as factory functions and modules and whatnot to make this project, hopefully it will be clean and teach me how to build maintainable code and projects in the future.
