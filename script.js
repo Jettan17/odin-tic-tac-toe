@@ -12,7 +12,11 @@ const Gameboard = (function () {
 
     }
 
-    return { getBoard, printBoard };
+    const updateBoard = (row, column) => {
+        
+    }
+
+    return { getBoard, printBoard, updateBoard };
 })();
 
 function Player (name, token) {
