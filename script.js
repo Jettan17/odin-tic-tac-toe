@@ -117,3 +117,5 @@ const GameController = (function () {
 
     return { runGame };
 })();
+
+GameController.runGame();
