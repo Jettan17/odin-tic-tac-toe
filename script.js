@@ -10,10 +10,9 @@ const Gameboard = (function () {
 
     const printBoard = () => {
         for (row of board) {
-            for (cell of row) {
-                console.log(cell);
-            }
+            console.log(row);
         }
+        console.log("\n");
     }
 
     const updateBoard = (row, column, token) => {
