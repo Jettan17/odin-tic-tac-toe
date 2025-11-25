@@ -64,13 +64,13 @@ const GameController = (function () {
             [[0, 2], [1, 1], [2, 0]]]);
 
         for (const config of winConfigs) {
-            cell1 = config[0];
-            cell2 = config[1];
-            cell3 = config[2];
+            const cell1 = config[0];
+            const cell2 = config[1];
+            const cell3 = config[2];
 
-            token1 = currentBoard[cell1[0]][cell1[1]];
-            token2 = currentBoard[cell2[0]][cell2[1]];
-            token3 = currentBoard[cell3[0]][cell3[1]];
+            const token1 = currentBoard[cell1[0]][cell1[1]];
+            const token2 = currentBoard[cell2[0]][cell2[1]];
+            const token3 = currentBoard[cell3[0]][cell3[1]];
 
             if (token1 === token2 && token2 === token3) {
                 gameState = "Win";
@@ -83,29 +83,35 @@ const GameController = (function () {
     const playRound = () => {
         console.log(`${currentPlayer.name}'s turn`);
         Gameboard.printBoard();
-        rowInput = prompt("Enter row (0-2): ");
-        columnInput = prompt("Enter column (0-2): ");
+        let rowInput = prompt("Enter row (0-2): ");
+        let columnInput = prompt("Enter column (0-2): ");
 
-        //vaildation
-
+        //Validation
+        const currentBoard = Gameboard.getBoard();
+        while (currentBoard[rowInput][columnInput] !== "") {
+            rowInput = prompt("Enter row (0-2): ");
+            columnInput = prompt("Enter column (0-2): ");
+        }
 
         Gameboard.updateBoard(rowInput, columnInput, currentPlayer.token);
     }
 
     const runGame = () => {
-        playRound();
+        while (true) {
+            playRound();
 
-        const gameState = getGameState();
-        if (gameState === "Running") {
-            switchTurn();
-        } else if (gameState === "Tie") {
-            Gameboard.printBoard();
-            console.log("Tie!");
-            return;
-        } else if (gameState === "Win") {
-            Gameboard.printBoard();
-            console.log(`${currentPlayer.name} won!`);
-            return;
+            const gameState = getGameState();
+            if (gameState === "Running") {
+                switchTurn();
+            } else if (gameState === "Tie") {
+                Gameboard.printBoard();
+                console.log("Tie!");
+                return;
+            } else if (gameState === "Win") {
+                Gameboard.printBoard();
+                console.log(`${currentPlayer.name} won!`);
+                return;
+            }
         }
     }
 
