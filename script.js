@@ -9,9 +9,11 @@ const Gameboard = (function () {
     const getBoard = () => board;
 
     const printBoard = () => {
-        console.log(board[0]);
-        console.log(board[1]);
-        console.log(board[2]);
+        for (row of board) {
+            for (cell of row) {
+                console.log(cell);
+            }
+        }
     }
 
     const updateBoard = (row, column, token) => {
