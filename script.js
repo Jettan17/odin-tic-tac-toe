@@ -74,7 +74,7 @@ const GameController = (function () {
             const token2 = currentBoard[cell2[0]][cell2[1]];
             const token3 = currentBoard[cell3[0]][cell3[1]];
 
-            if (token !== "" && token1 === token2 && token2 === token3) {
+            if (token1 !== "" && token1 === token2 && token2 === token3) {
                 gameState = "Win";
             }
         }
@@ -90,7 +90,14 @@ const GameController = (function () {
 
         //Validation
         const currentBoard = Gameboard.getBoard();
-        while (currentBoard[rowInput][columnInput] !== "") {
+        while (!(rowInput in [0, 1, 2]) || !(columnInput in [0, 1, 2]) || currentBoard[rowInput][columnInput] !== "") {
+            //Feedback
+            if (!(rowInput in [0, 1, 2]) || !(columnInput in [0, 1, 2])) {
+                console.log("Invalid cell!");
+            } else if (currentBoard[rowInput][columnInput] !== "") {
+                console.log("Already filled cell!");
+            }
+
             rowInput = prompt("Enter row (0-2): ");
             columnInput = prompt("Enter column (0-2): ");
         }
@@ -106,10 +113,12 @@ const GameController = (function () {
             if (gameState === "Running") {
                 switchTurn();
             } else if (gameState === "Tie") {
+                console.log("Game End");
                 Gameboard.printBoard();
                 console.log("Tie!");
                 return;
             } else if (gameState === "Win") {
+                console.log("Game End");
                 Gameboard.printBoard();
                 console.log(`${currentPlayer.name} won!`);
                 return;
