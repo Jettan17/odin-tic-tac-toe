@@ -3,17 +3,19 @@ const Gameboard = (function () {
 
     //Initialize board
     for (i = 0; i < 3; i++) {
-        board.push([[]*3]);
+        board.push(["", "", ""]);
     } 
 
     const getBoard = () => board;
 
     const printBoard = () => {
-
+        console.log(board[0]);
+        console.log(board[1]);
+        console.log(board[2]);
     }
 
-    const updateBoard = (row, column) => {
-        
+    const updateBoard = (row, column, token) => {
+        board[row][column] = token;
     }
 
     return { getBoard, printBoard, updateBoard };
@@ -24,21 +26,88 @@ function Player (name, token) {
 }
 
 const GameController = (function () {
-    let currentPlayer = "";
+    let currentPlayer = playerX;
     const playerX = Player("Alpha", "X");
     const playerO = Player("Bravo", "O");
 
     const switchTurn = () => {
+        currentPlayer = (currentPlayer === playerX) ? playerO : playerX;
+    }
 
+    const getGameState = () => {
+        let gameState = "Running";
+        
+        //Check if tie
+        let tie = true;
+        for (const row of currentBoard) {
+            for (const cell of row) {
+                if (cell === "") {
+                    tie = false;
+                }
+            }
+        }
+
+        if (tie) {
+            gameState = "Tie";
+        }
+
+        //Check if won
+        const currentBoard = Gameboard.getBoard();
+        const winConfigs = Object.freeze([
+            [[0, 0], [0, 1], [0, 2]],
+            [[1, 0], [1, 1], [1, 2]],
+            [[2, 0], [2, 1], [2, 2]],
+            [[0, 0], [1, 0], [2, 0]],
+            [[0, 1], [1, 1], [2, 1]],
+            [[0, 2], [1, 2], [2, 2]],
+            [[0, 0], [1, 1], [2, 2]],
+            [[0, 2], [1, 1], [2, 0]]]);
+
+        for (const config of winConfigs) {
+            cell1 = config[0];
+            cell2 = config[1];
+            cell3 = config[2];
+
+            token1 = currentBoard[cell1[0]][cell1[1]];
+            token2 = currentBoard[cell2[0]][cell2[1]];
+            token3 = currentBoard[cell3[0]][cell3[1]];
+
+            if (token1 === token2 && token2 === token3) {
+                gameState = "Win";
+            }
+        }
+
+        return gameState;
     }
 
     const playRound = () => {
+        console.log(`${currentPlayer.name}'s turn`);
+        Gameboard.printBoard();
+        rowInput = prompt("Enter row (0-2): ");
+        columnInput = prompt("Enter column (0-2): ");
 
+        //vaildation
+
+
+        Gameboard.updateBoard(rowInput, columnInput, currentPlayer.token);
     }
 
-    const checkWin = () => {
+    const runGame = () => {
+        playRound();
 
+        const gameState = getGameState();
+        if (gameState === "Running") {
+            switchTurn();
+        } else if (gameState === "Tie") {
+            Gameboard.printBoard();
+            console.log("Tie!");
+            return;
+        } else if (gameState === "Win") {
+            Gameboard.printBoard();
+            console.log(`${currentPlayer.name} won!`);
+            return;
+        }
     }
 
-    return { switchTurn, playRound, checkWin };
+    return { runGame };
 })();
