@@ -1,0 +1,10 @@
+.board {
+    display: grid;
+    grid-template: repeat(5, 12px) / repeat(5, 12px);
+    margin: 10px 10px;
+}
+
+.cell, p {
+    justify-self: center;
+    align-self: center;
+}
