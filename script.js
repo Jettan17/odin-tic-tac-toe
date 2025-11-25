@@ -75,7 +75,7 @@ const GameController = (function () {
             const token2 = currentBoard[cell2[0]][cell2[1]];
             const token3 = currentBoard[cell3[0]][cell3[1]];
 
-            if (token1 === token2 && token2 === token3) {
+            if (token !== "" && token1 === token2 && token2 === token3) {
                 gameState = "Win";
             }
         }
