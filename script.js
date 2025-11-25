@@ -120,10 +120,12 @@ const ScreenController = (function () {
     }
 
     const updateCell = (e) => {
-        e.target.textContent = GameController.currentPlayer.token;
-        const no = e.target.id.split("cell")[1];
-        GameController.playRound(Math.floor(no / 3), no % 3);
-        GameController.runGame();
+        if (e.target.textContent === "") {
+            e.target.textContent = GameController.currentPlayer.token;
+            const no = e.target.id.split("cell")[1];
+            GameController.playRound(Math.floor(no / 3), no % 3);
+            GameController.runGame();
+        }
     }
     
     return { updateScreen, updateCell };
