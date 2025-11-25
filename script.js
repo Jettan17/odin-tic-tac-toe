@@ -36,6 +36,8 @@ const GameController = (function () {
 
     const getGameState = () => {
         let gameState = "Running";
+
+        const currentBoard = Gameboard.getBoard();
         
         //Check if tie
         let tie = true;
@@ -52,7 +54,6 @@ const GameController = (function () {
         }
 
         //Check if won
-        const currentBoard = Gameboard.getBoard();
         const winConfigs = Object.freeze([
             [[0, 0], [0, 1], [0, 2]],
             [[1, 0], [1, 1], [1, 2]],
