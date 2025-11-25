@@ -16,7 +16,6 @@ const Gameboard = (function () {
     }
 
     const updateBoard = (row, column, token) => {
-        console.log(row, column);
         board[row][column] = token;
     }
 
@@ -85,26 +84,23 @@ const GameController = (function () {
 
     const playRound = (rowInput, columnInput) => {
         console.log(`${currentPlayer.name}'s turn`);
-        Gameboard.printBoard();
-        ScreenController.updateScreen();
-        console.log(rowInput, columnInput);
         Gameboard.updateBoard(rowInput, columnInput, currentPlayer.token);
     }
 
     const runGame = () => {
+        Gameboard.printBoard();
+        ScreenController.updateScreen();
+
         const gameState = getGameState();
         if (gameState === "Running") {
             switchTurn();
         } else if (gameState === "Tie") {
             console.log("Game End");
-            Gameboard.printBoard();
-            ScreenController.updateScreen();
+            
             console.log("Tie!");
             return;
         } else if (gameState === "Win") {
             console.log("Game End");
-            Gameboard.printBoard();
-            ScreenController.updateScreen();
             console.log(`${currentPlayer.name} won!`);
             return;
         }
