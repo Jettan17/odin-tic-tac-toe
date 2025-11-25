@@ -12,6 +12,7 @@ const Gameboard = (function () {
         for (row of board) {
             console.log(row);
         }
+        ScreenController.updateBoard();
         console.log("\n");
     }
 
@@ -82,51 +83,68 @@ const GameController = (function () {
         return gameState;
     }
 
-    const playRound = () => {
+    const playRound = (rowInput, columnInput) => {
         console.log(`${currentPlayer.name}'s turn`);
         Gameboard.printBoard();
-        let rowInput = prompt("Enter row (0-2): ");
-        let columnInput = prompt("Enter column (0-2): ");
+        // let rowInput = prompt("Enter row (0-2): ");
+        // let columnInput = prompt("Enter column (0-2): ");
 
-        //Validation
-        const currentBoard = Gameboard.getBoard();
-        while (!(rowInput in [0, 1, 2]) || !(columnInput in [0, 1, 2]) || currentBoard[rowInput][columnInput] !== "") {
-            //Feedback
-            if (!(rowInput in [0, 1, 2]) || !(columnInput in [0, 1, 2])) {
-                console.log("Invalid cell!");
-            } else if (currentBoard[rowInput][columnInput] !== "") {
-                console.log("Already filled cell!");
-            }
+        // //Validation
+        // const currentBoard = Gameboard.getBoard();
+        // while (!(rowInput in [0, 1, 2]) || !(columnInput in [0, 1, 2]) || currentBoard[rowInput][columnInput] !== "") {
+        //     //Feedback
+        //     if (!(rowInput in [0, 1, 2]) || !(columnInput in [0, 1, 2])) {
+        //         console.log("Invalid cell!");
+        //     } else if (currentBoard[rowInput][columnInput] !== "") {
+        //         console.log("Already filled cell!");
+        //     }
 
-            rowInput = prompt("Enter row (0-2): ");
-            columnInput = prompt("Enter column (0-2): ");
-        }
+        //     rowInput = prompt("Enter row (0-2): ");
+        //     columnInput = prompt("Enter column (0-2): ");
+        // }
 
         Gameboard.updateBoard(rowInput, columnInput, currentPlayer.token);
     }
 
     const runGame = () => {
-        while (true) {
-            playRound();
+        playRound(1, 0);
+        playRound(0, 2);
+        playRound(1, 2);
+        ScreenController.updateBoard();
+        // while (true) {
+            
 
-            const gameState = getGameState();
-            if (gameState === "Running") {
-                switchTurn();
-            } else if (gameState === "Tie") {
-                console.log("Game End");
-                Gameboard.printBoard();
-                console.log("Tie!");
-                return;
-            } else if (gameState === "Win") {
-                console.log("Game End");
-                Gameboard.printBoard();
-                console.log(`${currentPlayer.name} won!`);
-                return;
-            }
-        }
+        //     const gameState = getGameState();
+        //     if (gameState === "Running") {
+        //         switchTurn();
+        //     } else if (gameState === "Tie") {
+        //         console.log("Game End");
+        //         Gameboard.printBoard();
+        //         console.log("Tie!");
+        //         return;
+        //     } else if (gameState === "Win") {
+        //         console.log("Game End");
+        //         Gameboard.printBoard();
+        //         console.log(`${currentPlayer.name} won!`);
+        //         return;
+        //     }
+        // }
     }
 
     return { runGame };
+})();
+
+const ScreenController = (function () {
+    const updateBoard = () => {
+        const currentBoard = Gameboard.getBoard();
+
+        for (i = 0; i < 9; i++) {
+            const cell = document.getElementById(`cell${i}`);
+            cell.textContent = currentBoard[Math.floor(i / 3)][i % 3];
+        }
+    }
+    
+    return { updateBoard };
 })();
 
 GameController.runGame();
