@@ -26,9 +26,9 @@ function Player (name, token) {
 }
 
 const GameController = (function () {
-    let currentPlayer = playerX;
     const playerX = Player("Alpha", "X");
     const playerO = Player("Bravo", "O");
+    let currentPlayer = playerX;
 
     const switchTurn = () => {
         currentPlayer = (currentPlayer === playerX) ? playerO : playerX;
