@@ -2,14 +2,14 @@ const Gameboard = (function () {
     let board = [];
 
     //Initialize board
-    for (i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i++) {
         board.push(["", "", ""]);
     } 
 
     const getBoard = () => board;
 
     const printBoard = () => {
-        for (row of board) {
+        for (const row of board) {
             console.log(row);
         }
         console.log("\n");
@@ -30,14 +30,13 @@ const GameController = (function () {
     const playerX = Player("Alpha", "X");
     const playerO = Player("Bravo", "O");
     let currentPlayer = playerX;
+    let gameState = "Running";
 
     const switchTurn = () => {
         currentPlayer = (currentPlayer === playerX) ? playerO : playerX;
     }
 
-    const getGameState = () => {
-        let gameState = "Running";
-
+    const updateGameState = () => {
         const currentBoard = Gameboard.getBoard();
         
         //Check if tie
@@ -79,7 +78,7 @@ const GameController = (function () {
             }
         }
 
-        return gameState;
+        return;
     }
 
     const playRound = (rowInput, columnInput) => {
@@ -91,12 +90,12 @@ const GameController = (function () {
         Gameboard.printBoard();
         ScreenController.updateScreen();
 
-        const gameState = getGameState();
+        updateGameState();
         if (gameState === "Running") {
             switchTurn();
         } else if (gameState === "Tie") {
             console.log("Game End");
-            
+
             console.log("Tie!");
             return;
         } else if (gameState === "Win") {
@@ -106,31 +105,35 @@ const GameController = (function () {
         }
     }
 
-    return { currentPlayer, playRound, runGame };
+    const getGameState = () => gameState;
+    const getCurrentPlayer = () => currentPlayer;
+
+    return { getCurrentPlayer, getGameState, playRound, runGame };
 })();
 
 const ScreenController = (function () {
     const updateScreen = () => {
         const currentBoard = Gameboard.getBoard();
 
-        for (i = 0; i < 9; i++) {
+        for (let i = 0; i < 9; i++) {
             const cell = document.getElementById(`cell${i}`);
             cell.textContent = currentBoard[Math.floor(i / 3)][i % 3];
         }
     }
 
-    const updateCell = (e) => {
+    const cellUpdated = (e) => {
         if (e.target.textContent === "") {
-            e.target.textContent = GameController.currentPlayer.token;
-            const no = e.target.id.split("cell")[1];
-            GameController.playRound(Math.floor(no / 3), no % 3);
-            GameController.runGame();
+            if (GameController.getGameState() === "Running") {
+                const no = e.target.id.split("cell")[1];
+                GameController.playRound(Math.floor(no / 3), no % 3);
+                GameController.runGame();
+            }
         }
     }
     
-    return { updateScreen, updateCell };
+    return { updateScreen, cellUpdated };
 })();
 
 for (const cell of document.getElementsByClassName("cell")) {
-    cell.addEventListener("click", ScreenController.updateCell);
+    cell.addEventListener("click", ScreenController.cellUpdated);
 }
