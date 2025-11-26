@@ -35,5 +35,11 @@ body {
 }
 
 .ui {
-    margin-right: 100px;
+    margin-right: 200px;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
