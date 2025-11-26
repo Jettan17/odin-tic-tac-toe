@@ -88,14 +88,13 @@ const GameController = (function () {
 
     const runGame = () => {
         Gameboard.printBoard();
-        ScreenController.updateScreen();
-
         updateGameState();
+        ScreenController.updateScreen();
+        
         if (gameState === "Running") {
             switchTurn();
         } else if (gameState === "Tie") {
             console.log("Game End");
-
             console.log("Tie!");
             return;
         } else if (gameState === "Win") {
@@ -113,11 +112,23 @@ const GameController = (function () {
 
 const ScreenController = (function () {
     const updateScreen = () => {
+        //update cells
         const currentBoard = Gameboard.getBoard();
 
         for (let i = 0; i < 9; i++) {
             const cell = document.getElementById(`cell${i}`);
             cell.textContent = currentBoard[Math.floor(i / 3)][i % 3];
+        }
+
+        //update ui
+        const turnFeedback = document.getElementById("turn-feedback");
+        turnFeedback.textContent = `${GameController.getCurrentPlayer().name}'s turn`;
+
+        const gameEndFeedback = document.getElementById("game-end-feedback");
+        if (GameController.getGameState() === "Win") {
+            gameEndFeedback.textContent = `${GameController.getCurrentPlayer().name} won!`;
+        } else if (GameController.getGameState() === "Tie") {
+            gameEndFeedback.textContent = "Tie!";
         }
     }
 
