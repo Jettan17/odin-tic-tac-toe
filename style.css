@@ -12,14 +12,38 @@
     align-self: center;
 }
 
-.board button {
+p, label {
+    color: #164141;
+}
+
+input {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #164141;
     border: none;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
+    border-radius: 999px;
+    background-color: #D6D1B1;
+    padding: 10px 15px;
+}
+
+.board button {
     min-width: 105px;
     min-height: 105px;
     font-size: 10ch;
+    border-radius: 10%;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    background-color: #D6D1B1;
+    color: #164141;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.ui button {
+    border-radius: 999px;
+    min-height: 50px;
+    font-size: 2ch;
 }
 
 body {
@@ -28,6 +52,7 @@ body {
     align-items: center;
     min-height: 100vh;
     gap: 100px;
+    background-color: #EEF5DB;
 }
 
 .vertical-separator {
@@ -37,6 +62,7 @@ body {
 
 .ui {
     margin-right: 200px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .actions {
