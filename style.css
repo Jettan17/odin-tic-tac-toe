@@ -1,7 +1,10 @@
 .board {
     display: grid;
-    grid-template: repeat(5, 12px) / repeat(5, 12px);
+    grid-template: repeat(5, 100px) / repeat(5, 100px);
     margin: 10px 10px;
+    flex:auto;
+    padding: 12px;
+    margin-left: 100px;
 }
 
 .cell, p {
@@ -9,11 +12,28 @@
     align-self: center;
 }
 
-button {
+.board button {
     border: none;
     padding: 0;
     margin: 0;
     cursor: pointer;
-    min-width: 15px;
-    min-height: 15px;
+    min-width: 105px;
+    min-height: 105px;
+    font-size: 10ch;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.vertical-separator {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+}
+
+.ui {
+    margin-right: 100px;
 }

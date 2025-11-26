@@ -10,30 +10,43 @@
 <body>
     <div class="board">
         <div class="cell"><button id="cell0"></button></div>
-        <p>|</p>
+        <p class="vertical-separator"></p>
         <div class="cell"><button id="cell1"></button></div>
-        <p>|</p>
+        <p class="vertical-separator"></p>
         <div class="cell"><button id="cell2"></button></div>
-        <p>--</p>
-        <p>--</p>
-        <p>--</p>
-        <p>--</p>
-        <p>--</p>
+        <p>------------------</p>
+        <p>------------------</p>
+        <p>------------------</p>
+        <p>------------------</p>
+        <p>------------------</p>
         <div class="cell"><button id="cell3"></button></div>
-        <p>|</p>
+        <p class="vertical-separator">|||||||||||||||||||||||||||||</p>
         <div class="cell"><button id="cell4"></button></div>
-        <p>|</p>
+        <p class="vertical-separator">|||||||||||||||||||||||||||||</p>
         <div class="cell"><button id="cell5"></button></div>
-        <p>--</p>
-        <p>--</p>
-        <p>--</p>
-        <p>--</p>
-        <p>--</p>
+        <p>------------------</p>
+        <p>------------------</p>
+        <p>------------------</p>
+        <p>------------------</p>
+        <p>------------------</p>
         <div class="cell"><button id="cell6"></button></div>
-        <p>|</p>
+        <p class="vertical-separator"></p>
         <div class="cell"><button id="cell7"></button></div>
-        <p>|</p>
+        <p class="vertical-separator"></p>
         <div class="cell"><button id="cell8"></button></div>
+    </div>
+    <div class="ui">
+        <div class="feedback">
+            <p id="turn-feedback">ur mom's turn</p>
+            <p id="game-end-feedback">Game not OVER</p>
+        </div>
+        <div class="actions">
+            <label for="player-1-name">Player 1 Name: </label>
+            <input id="player-1-name" name="player-1-name">
+            <label for="player-2-name">Player 2 Name: </label>
+            <input id="player-2-name" name="player-2-name">
+            <button id="start-button">Start Game</button>
+        </div>
     </div>
 </body>
 </html>
