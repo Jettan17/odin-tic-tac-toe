@@ -1,10 +1,12 @@
 const Gameboard = (function () {
     let board = [];
 
-    //Initialize board
-    for (let i = 0; i < 3; i++) {
-        board.push(["", "", ""]);
-    } 
+    const resetBoard = () => {
+        board = [];
+        for (let i = 0; i < 3; i++) {
+            board.push(["", "", ""]);
+        } 
+    }
 
     const getBoard = () => board;
 
@@ -19,7 +21,7 @@ const Gameboard = (function () {
         board[row][column] = token;
     }
 
-    return { getBoard, printBoard, updateBoard };
+    return { getBoard, printBoard, updateBoard, resetBoard };
 })();
 
 function Player (name, token) {
@@ -27,16 +29,33 @@ function Player (name, token) {
 }
 
 const GameController = (function () {
-    const playerX = Player("Alpha", "X");
-    const playerO = Player("Bravo", "O");
+    let playerX = Player("Alpha", "X");
+    let playerO = Player("Bravo", "O");
     let currentPlayer = playerX;
-    let gameState = "Running";
+    let gameState = "Idle";
 
     const switchTurn = () => {
         currentPlayer = (currentPlayer === playerX) ? playerO : playerX;
     }
 
-    const updateGameState = () => {
+    const resetGame = () => {
+        playerX = Player(`${document.getElementById("player-1-name").value}`, "X");
+        playerO = Player(`${document.getElementById("player-2-name").value}`, "O");
+        currentPlayer = playerX;
+        gameState = "Running";
+
+        Gameboard.resetBoard();
+        ScreenController.resetUI();
+        ScreenController.updateScreen();
+        return;
+    }
+
+    const updateGameState = (gameEnd=false) => {
+        if (gameEnd) {
+            gameState = "Idle";
+            return;
+        }
+
         const currentBoard = Gameboard.getBoard();
         
         //Check if tie
@@ -84,6 +103,7 @@ const GameController = (function () {
     const playRound = (rowInput, columnInput) => {
         console.log(`${currentPlayer.name}'s turn`);
         Gameboard.updateBoard(rowInput, columnInput, currentPlayer.token);
+        runGame();
     }
 
     const runGame = () => {
@@ -93,13 +113,16 @@ const GameController = (function () {
         
         if (gameState === "Running") {
             switchTurn();
+            ScreenController.updateScreen();
         } else if (gameState === "Tie") {
             console.log("Game End");
             console.log("Tie!");
+            updateGameState(gameEnd=true);
             return;
         } else if (gameState === "Win") {
             console.log("Game End");
             console.log(`${currentPlayer.name} won!`);
+            updateGameState(gameEnd = true);
             return;
         }
     }
@@ -107,7 +130,7 @@ const GameController = (function () {
     const getGameState = () => gameState;
     const getCurrentPlayer = () => currentPlayer;
 
-    return { getCurrentPlayer, getGameState, playRound, runGame };
+    return { getCurrentPlayer, getGameState, playRound, runGame, resetGame };
 })();
 
 const ScreenController = (function () {
@@ -122,6 +145,7 @@ const ScreenController = (function () {
 
         //update ui
         const turnFeedback = document.getElementById("turn-feedback");
+        console.log(GameController.getCurrentPlayer().name);
         turnFeedback.textContent = `${GameController.getCurrentPlayer().name}'s turn`;
 
         const gameEndFeedback = document.getElementById("game-end-feedback");
@@ -137,14 +161,21 @@ const ScreenController = (function () {
             if (GameController.getGameState() === "Running") {
                 const no = e.target.id.split("cell")[1];
                 GameController.playRound(Math.floor(no / 3), no % 3);
-                GameController.runGame();
             }
         }
     }
+
+    const resetUI = () => {
+        const gameEndFeedback = document.getElementById("game-end-feedback");
+        gameEndFeedback.textContent = "Game Not Ended";
+    }
     
-    return { updateScreen, cellUpdated };
+    return { updateScreen, cellUpdated, resetUI };
 })();
 
 for (const cell of document.getElementsByClassName("cell")) {
     cell.addEventListener("click", ScreenController.cellUpdated);
 }
+
+const startGameButton = document.getElementById("start-button");
+startGameButton.addEventListener("click", GameController.resetGame);
